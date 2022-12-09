@@ -21,36 +21,21 @@ def move(a, b):
         b[1] += y // abs(y)
 
 
-def part1():
-    h = [0, 0]
-    t = [0, 0]
+def solution(rope_len):
     visited = set()
-
-    for dir, num in lines:
-        for _ in range(int(num)):
-            x, y = rules[dir]
-            h[0] += x
-            h[1] += y
-            move(h, t)
-            visited.add(tuple(t))
-
-    return len(visited)
-
-def part2():
-    visited = set()
-    rope = [[0,0] for _ in range(10)]
+    rope = [[0, 0] for _ in range(rope_len)]
 
     for dir, num in lines:
         for _ in range(int(num)):
             x, y = rules[dir]
             rope[0][0] += x
             rope[0][1] += y
-            for i in range(1, 10):
-                move(rope[i-1], rope[i])
-            visited.add(tuple(rope[9]))
+            for i in range(1, rope_len):
+                move(rope[i - 1], rope[i])
+            visited.add(tuple(rope[-1]))
 
     return len(visited)
 
 
-print("Part 1:", part1())
-print("Part 2:", part2())
+print("Part 1:", solution(2))
+print("Part 2:", solution(10))
