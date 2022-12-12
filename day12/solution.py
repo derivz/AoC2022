@@ -1,6 +1,5 @@
 import sys
-
-sys.setrecursionlimit(5000)
+sys.setrecursionlimit(2000)
 
 with open('./input.txt') as f:
     lines = f.read().strip().split('\n')
@@ -24,7 +23,6 @@ for i in range(m):
             start = (i, j)
         elif lines[i][j] == 'E':
             end = (i, j)
-visited = {end: 0}
 
 
 def search(node, score):
@@ -35,26 +33,22 @@ def search(node, score):
             x, y = node[0] + a, node[1] + b
             if not (0 <= x < m and 0 <= y < n):
                 continue
-            if mappy[x][y] > mappy[node[0]][node[1]] + 1:
+            if mappy[x][y] < mappy[node[0]][node[1]] - 1:
                 continue
-            search((x, y), score+1)
+            search((x, y), score + 1)
 
 
 sol = [[None] * n for _ in range(m)]
-search(start, 0)
-print(sol)
+search(end, 0)
 
-shortest = sol[end[0]][end[1]]
+shortest = sol[start[0]][start[1]]
 print("Part 1:", shortest)
 
 
-# ultra unoptimized brutal solution
 for i in range(len(lines)):
     for j in range(len(lines[0])):
         if lines[i][j] == 'a':
-            sol = [[None] * n for _ in range(m)]
-            search((i, j), 0)
-            candidate = sol[end[0]][end[1]]
+            candidate = sol[i][j]
             if candidate and candidate < shortest:
                 shortest = candidate
 
