@@ -29,6 +29,9 @@ def get_best_geoge_level(
     if (lineno, o, c, b, g, ro, rc, rb, rg, step) in memo:
         return memo[(lineno, o, c, b, g, ro, rc, rb, rg, step)]
     bp = blueprints[lineno]
+    mo = max(bp['opo'], bp['opc'], bp['opb'], bp['opg'])
+    mc = bp['cpb']
+    mb = bp['bpg']
     options = []
     if o >= bp['opg'] and b >= bp['bpg']:
         options.append(get_best_geoge_level(
@@ -36,17 +39,17 @@ def get_best_geoge_level(
             ro, rc, rb, rg + 1, step, max_step, greedy_approach
         ))
     else:
-        if o >= bp['opb'] and c >= bp['cpb']:
+        if o >= bp['opb'] and c >= bp['cpb'] and rb < mb:
             options.append(get_best_geoge_level(
                 lineno, o - bp['opb'] + ro, c - bp['cpb'] + rc, b + rb, g + rg,
                 ro, rc, rb + 1, rg, step, max_step, greedy_approach
             ))
-        if o >= bp['opo']:
+        if o >= bp['opo'] and ro < mo:
             options.append(get_best_geoge_level(
                 lineno, o - bp['opo'] + ro, c + rc, b + rb, g + rg,
                         ro + 1, rc, rb, rg, step, max_step, greedy_approach
             ))
-        if o >= bp['opc']:
+        if o >= bp['opc'] and rc < mc:
             options.append(get_best_geoge_level(
                 lineno, o - bp['opc'] + ro, c + rc, b + rb, g + rg,
                 ro, rc + 1, rb, rg, step, max_step, greedy_approach
