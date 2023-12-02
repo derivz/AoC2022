@@ -22,5 +22,4 @@ def get_input(day, year=2023):
 
 if __name__ == "__main__":
     now = datetime.datetime.now()
-    # get_input(now.day, now.year)
-    get_input(1, now.year)
+    get_input(now.day, now.year)
